@@ -71,10 +71,10 @@
 
     .hero{
       position:relative;
-      min-height:520px;
+      min-height:560px;
       display:flex;
       align-items:flex-end;
-      padding:20px;
+      padding:18px 16px 20px;
       color:#fff;
       background:
         linear-gradient(180deg, rgba(5,12,20,.06) 0%, rgba(5,12,20,.38) 44%, rgba(5,12,20,.94) 100%),
@@ -96,41 +96,47 @@
     .hero::before{right:-14px}
     .hero::after{left:-14px}
 
-    .hero-content{position:relative;z-index:2;width:100%}
+    .hero-content{position:relative;z-index:2;width:100%;padding-top:94px}
 
     .ticket-top{
       position:absolute;
-      top:18px;
-      right:18px;
-      left:18px;
+      top:14px;
+      right:14px;
+      left:14px;
       z-index:4;
-      display:flex;
-      justify-content:space-between;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:8px;
       align-items:center;
-      gap:12px;
     }
 
     .boarding{
+      width:100%;
+      text-align:center;
       font-family:"Cairo",sans-serif;
       font-weight:800;
-      font-size:12px;
-      letter-spacing:.8px;
-      padding:8px 11px;
+      font-size:11px;
+      letter-spacing:.55px;
+      padding:8px 10px;
       border:1px solid rgba(255,255,255,.34);
-      background:rgba(10,20,30,.35);
+      background:rgba(10,20,30,.42);
       backdrop-filter:blur(8px);
       border-radius:999px;
+      white-space:nowrap;
     }
 
     .gift{
+      width:100%;
+      text-align:center;
       font-family:"Cairo",sans-serif;
       font-weight:800;
       font-size:12px;
       color:#1f2b24;
       background:#fff;
       border-radius:999px;
-      padding:8px 12px;
+      padding:8px 10px;
       box-shadow:0 10px 30px rgba(0,0,0,.18);
+      white-space:nowrap;
     }
 
     .route{
@@ -153,7 +159,7 @@
 
     h1,h2,h3{font-family:"Cairo",sans-serif;margin:0}
     h1{
-      font-size:clamp(31px,8.5vw,42px);
+      font-size:clamp(29px,8.2vw,42px);
       line-height:1.22;
       font-weight:900;
       margin-bottom:12px;
@@ -204,7 +210,7 @@
     .btn-wa svg{width:23px;height:23px}
     .microcopy{text-align:center;margin-top:10px;font-size:12px;color:rgba(255,255,255,.72)}
 
-    .section{padding:26px 20px}
+    .section{padding:24px 16px}
     .section + .section{border-top:2px dashed var(--line)}
     .eyebrow{
       display:inline-block;
@@ -285,9 +291,9 @@
 
     .fab{
       position:fixed;
-      left:18px;
-      bottom:18px;
-      width:60px;height:60px;
+      left:max(14px, env(safe-area-inset-left));
+      bottom:max(14px, env(safe-area-inset-bottom));
+      width:56px;height:56px;
       display:grid;place-items:center;
       border-radius:50%;
       background:var(--wa);
@@ -308,6 +314,47 @@
       .hero{min-height:570px;padding:28px}
       .section{padding:32px 28px}
       .services{gap:14px}
+    }
+
+
+    /* تحسينات مخصصة للهواتف */
+    @media (min-width:380px){
+      .ticket-top{
+        grid-template-columns:minmax(0,1fr) auto;
+        gap:10px;
+      }
+      .boarding{width:auto;font-size:11.5px;padding-inline:12px}
+      .gift{width:auto;font-size:11.5px;padding-inline:12px}
+      .hero-content{padding-top:56px}
+    }
+
+    @media (max-width:379px){
+      .page{padding-inline:8px}
+      .ticket{border-radius:20px}
+      .hero{min-height:590px;padding-inline:14px}
+      .route{margin-top:4px}
+      .route strong{font-size:17px}
+      .plane{font-size:23px}
+      h1{font-size:28px;line-height:1.25}
+      .hero-copy{font-size:14.5px}
+      .benefits-line span{font-size:10.8px;padding:5px 8px}
+      .btn-wa{min-height:56px;font-size:15px}
+      h2{font-size:22px}
+      .services{grid-template-columns:1fr}
+      .service{min-height:auto}
+      .fab{width:52px;height:52px}
+      .fab svg{width:26px;height:26px}
+    }
+
+    @media (max-width:330px){
+      .ticket-top{right:10px;left:10px}
+      .boarding,.gift{font-size:10.5px}
+      .hero{min-height:610px}
+      h1{font-size:26px}
+      .hero-copy{font-size:14px}
+      .benefits-line{gap:5px}
+      .benefits-line span{font-size:10px}
+      .section{padding-inline:14px}
     }
 
     @media (prefers-reduced-motion:reduce){
