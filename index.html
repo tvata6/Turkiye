@@ -497,18 +497,65 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   </a>
 
   <script>
-    document.querySelectorAll('.wa-link').forEach(function(link){
-      link.addEventListener('click', function(){
-        if(typeof gtag === 'function'){
-          gtag('event','whatsapp_click',{
-            source:'snapchat',
-            medium:'cpc',
-            campaign:'saudi',
-            transport_type:'beacon'
-          });
-        }
+    (function () {
+      const GA_MEASUREMENT_ID = 'G-VN2NM26S5R';
+
+      function getCampaignData() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          source: params.get('utm_source') || 'direct',
+          medium: params.get('utm_medium') || 'none',
+          campaign: params.get('utm_campaign') || 'not_set'
+        };
+      }
+
+      function buildWhatsAppUrl(originalUrl) {
+        const campaign = getCampaignData();
+        const url = new URL(originalUrl, window.location.href);
+
+        url.searchParams.set('utm_source', campaign.source);
+        url.searchParams.set('utm_medium', campaign.medium);
+        url.searchParams.set('utm_campaign', campaign.campaign);
+
+        return url.toString();
+      }
+
+      document.querySelectorAll('.wa-link').forEach(function (link) {
+        link.href = buildWhatsAppUrl(link.href);
+
+        link.addEventListener('click', function (event) {
+          const destination = link.href;
+          const campaign = getCampaignData();
+
+          event.preventDefault();
+
+          let redirected = false;
+          function continueToWhatsApp() {
+            if (redirected) return;
+            redirected = true;
+            window.location.href = destination;
+          }
+
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'whatsapp_click', {
+              send_to: GA_MEASUREMENT_ID,
+              link_url: destination,
+              link_text: (link.textContent || '').trim(),
+              source: campaign.source,
+              medium: campaign.medium,
+              campaign: campaign.campaign,
+              transport_type: 'beacon',
+              event_callback: continueToWhatsApp,
+              event_timeout: 1200
+            });
+
+            setTimeout(continueToWhatsApp, 1300);
+          } else {
+            continueToWhatsApp();
+          }
+        });
       });
-    });
+    })();
   </script>
 </body>
 </html>
